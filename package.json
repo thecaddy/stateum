@@ -26,6 +26,9 @@
     "babel-register": "^6.6.5",
     "lodash": "^4.6.1"
   },
+  "engines" : {
+    "node" : ">=4" 
+  },
   "ava": {
     "files": [
       "test/*.js"
