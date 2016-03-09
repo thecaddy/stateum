@@ -2,7 +2,7 @@
   "name": "stateum",
   "version": "0.1.0",
   "description": "An attachable state machine for your javascript objects.",
-  "main": "index.js",
+  "main": "index",
   "scripts": {
     "test": "ava"
   },
@@ -34,13 +34,7 @@
       "test/*.js"
     ],
     "match": [
-      "*-tets.js"
-    ],
-    "failFast": true,
-    "tap": true,
-    "require": [
-      "babel-register"
-    ],
-    "babel": "inherit"
+      "*-test.js"
+    ]
   }
 }
