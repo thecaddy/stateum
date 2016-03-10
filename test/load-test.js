@@ -3,6 +3,37 @@ import stateum from '../'
 import syncSM from './shill/sync'
 import asyncSM from './shill/async'
 
+test('fail for invalid state machine, no state machine', t => {
+  try{
+    const stateMachine = stateum()
+    t.fail(`Allowed creation of machine without a statemachine`)
+  } catch(err) {
+    t.pass()
+  }
+})
+
+test('fail for invalid state machine, no getState', t => {
+  try{
+    const stateMachine = stateum({
+      getState: {}
+    })
+    t.fail(`Allowed creation of machine without getState function`)
+  } catch(err) {
+    t.pass()
+  }
+})
+
+test('fail for invalid state machine, no states', t => {
+  try{
+    const stateMachine = stateum({
+      getState: function() {},
+      states: {}
+    })
+    t.fail(`Allowed creation of machine without states function`)
+  } catch(err) {
+    t.pass()
+  }
+})
 
 test('fail to load stateum with empty object', t => {
   let obj
