@@ -6,8 +6,37 @@ export default {
     return this.state;
   },
   states: {
-    PAUSE: null,
-    START: null,
-    STOP: null
+    PAUSE: {
+      transitions: {
+        START() {
+          this.state = 'START'
+          return this
+        },
+        STOP() {
+          this.state = 'PAUSE'
+          return this
+        }
+      }
+    },
+    START: {
+      transitions: {
+        PAUSE() {
+          this.state = 'PAUSE'
+          return this
+        },
+        STOP() {
+          this.state = 'PAUSE'
+          return this
+        }
+      }
+    },
+    STOP: {
+      transitions: {
+        START() {
+          this.state = 'START'
+          return this
+        }
+      }
+    }
   }
 }
