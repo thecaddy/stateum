@@ -13,19 +13,22 @@ export default {
           return this
         },
         STOP() {
-          this.state = 'PAUSE'
+          this.state = 'STOP'
           return this
         }
       }
     },
     START: {
       transitions: {
+        START() {
+          return this
+        },
         PAUSE() {
           this.state = 'PAUSE'
           return this
         },
         STOP() {
-          this.state = 'PAUSE'
+          this.state = 'STOP'
           return this
         }
       }

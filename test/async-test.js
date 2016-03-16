@@ -1,45 +1,21 @@
 import test from 'ava';
 import stateum from '../'
-import asyncSM from './shill/async'
+import asyncSM from './mocks/async'
 
 
+const obj = {
+  state: 'PAUSE'
+}
 test.beforeEach(t => {
-    // this runs before each test
+  // this runs before each test
+  obj.state = 'PAUSE'
+  const stateMachine = stateum(asyncSM)
+  stateMachine(obj)
 });
-
-
-test('state is found', async t => {
-  let obj = {
-    state: 'PAUSE'
-  }
-  const stateMachine = stateum(asyncSM)
-  stateMachine(obj)
-  t.is(await obj.getState(), 'PAUSE')
-  t.pass()
-})
-
-test('error if no value for state is found', async t => {
-  let obj = {}
-  const stateMachine = stateum(asyncSM)
-  stateMachine(obj)
-  try{
-    const state = await obj.getState()
-    t.fail(`Found state: ${state}`)
-  } catch(err) {
-    t.ok(err)
-    t.pass()
-  }
-  t.pass()
-})
 
 
 
 test('should return overrideable transitionable states', async t => {
-  let obj = {
-    state: 'PAUSE'
-  }
-  const stateMachine = stateum(asyncSM)
-  stateMachine(obj)
 
   const transitions = await obj.transitionStates()
 
@@ -48,50 +24,26 @@ test('should return overrideable transitionable states', async t => {
 
 
 test('should transition from PAUSE to START', async t => {
-  let obj = {
-    state: 'PAUSE'
-  }
-  const stateMachine = stateum(asyncSM)
-  stateMachine(obj)
-
-  const transitions = await obj.transitionStates()
-
+  const newObj = await obj.transitionTo('START')
+  t.is(await newObj.getState(), 'START')
 });
 
-// test('should transition from ACCRUING to DELETED and throw err', function(done) {   
-//   let updatedReturn = null;
+test('should throw exception from PAUSE to STOP', async t => {
+  try{
+    const state = await obj.transitionTo('STOP')
+    t.fail(`Found state: ${state}`)
+  } catch(err) {
+    t.ok(err)
+    t.pass()
+  }
+  t.pass()
+});
 
-//   returns[1].transitionTo('DELETED')
-//   .then(ret => {
-//     expect(ret.state).to.equal('DELETED');
-//     expect(ret.STATE_MACHINE).to.be.undefined;
-//     updatedReturn = ret;
-
-//     return ret.getState();
-//   }).then(ret => {
-//     expect(ret).to.equal('DELETED');
-//     // console.log('oh man', updatedReturn.STATE_MACHINE)
-//     return updatedReturn.transitionStates();
-//   }).catch(err => {
-//     expect(err.message).to.equal('State "DELETED" not implemented');
-//     return true;
-//   }).then(res => {
-//     done();
-//   }).catch(err => done(err));
-// });
-
-
-// test('should transition registration from ISFILE to ISFILE', function(done) {   
-//   taxReg.transitionTo('HASDUE')
-//   .then(res => {
-//     expect(res.state).to.equal('HASDUE')
-//     return res.transitionTo('ISFILE')
-//   }).then(res => {
-//     expect(res.state).to.equal('ISFILE')
-//     return res.transitionTo('ISFILE')
-//   }).then(res => {
-//     expect(res.state).to.equal('ISFILE')
-//     done()
-//   }).catch(err => done(err))
-// });
-
+test('should transition PAUSE to START to START to STOP', async t => {
+  let newObj = await obj.transitionTo('START')
+  t.is(await newObj.getState(), 'START')
+  newObj = await newObj.transitionTo('START')
+  t.is(await newObj.getState(), 'START')
+  newObj = await newObj.transitionTo('STOP')
+  t.is(await newObj.getState(), 'STOP')
+});

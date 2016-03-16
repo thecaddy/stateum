@@ -7,6 +7,9 @@ export default {
       res(this.state)
     })
   },
+  allowTransition(to, transitionStates) {
+    return transitionStates[to]
+  },
   states: {
     PAUSE: {
       allowTransitionSTART(){
@@ -43,7 +46,17 @@ export default {
       }
     },
     START: {
+      transitionStates() {
+        return {
+          START: true,
+          STOP: true,
+          PAUSE: true 
+        };
+      },
       transitions: {
+        START() {
+          return this
+        },
         PAUSE() {
           return new Promise((res, rej) => {
             this.state = 'PAUSE'
@@ -59,6 +72,13 @@ export default {
       }
     },
     STOP: {
+      transitionStates() {
+        return {
+          START: true,
+          STOP: false,
+          PAUSE: false 
+        };
+      },
       transitions: {
         START() {
           return new Promise((res, rej) => {

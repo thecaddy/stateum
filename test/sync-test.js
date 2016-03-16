@@ -1,6 +1,6 @@
 import test from 'ava';
 import stateum from '../'
-import syncSM from './shill/sync'
+import syncSM from './mocks/sync'
 
 const obj = {
   state: 'PAUSE'
@@ -25,7 +25,16 @@ test('should return transitionable states', async t => {
 })
 
 test('should transition from PAUSE to START', async t => {
- const newObj = await obj.transitionTo('START')
+  const newObj = await obj.transitionTo('START')
 
- t.is(await obj.getState(), 'START')
+  t.is(await newObj.getState(), 'START')
 })
+
+test('should transition PAUSE to START to START to STOP', async t => {
+  let newObj = await obj.transitionTo('START')
+  t.is(await newObj.getState(), 'START')
+  newObj = await newObj.transitionTo('START')
+  t.is(await newObj.getState(), 'START')
+  newObj = await newObj.transitionTo('STOP')
+  t.is(await newObj.getState(), 'STOP')
+});
