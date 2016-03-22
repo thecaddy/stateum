@@ -117,7 +117,7 @@ export default {
 }
 ```
 
-## Advanced Stateum usage, but not toooo advanced
+## Advanced Stateum usage, but not too advanced
 
 Stateum is not isolated to synchronous calls and returns everything as a promise allowing us to make for complex state transitions.
 
@@ -125,7 +125,7 @@ Two available methods are `allowTransition(to, transitionState)` which allows fo
 transitioned to.  `allowTransition` will be passed the returned object from the `transitionStates()` method nested in each state (more on this method later)
 and the state being requested in the `transitionTo(to)`.
 
-In the exmaple below assuming I am in the 'PAUSE' state:
+In the exmaple below assuming we are in the 'PAUSE' state:
 ```
 const obj = {
   state: 'PAUSE'
@@ -142,7 +142,7 @@ const transitionStates = await obj.transitionStates()
 ```
 
 Requesting `obj.transitionTo('START')` will evaluate in the `allowTransition` method to valid and transition to start.  Because we see 'STOP' evaluated to 'false',
-requesting `obj.transitionTo('STOP')` will throw an excecption that the transition is not valid.
+requesting `obj.transitionTo('STOP')` will throw an exception that the transition is not valid.
 
 ```
 export default {
