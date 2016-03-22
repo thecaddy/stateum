@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "clean": "rimraf lib dist es",
-    "test": "ava",
+    "test": "npm run clean && npm run build && ava",
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
     "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development webpack src/stateum.js dist/stateum.js",
@@ -43,11 +43,9 @@
     "babel-register": "^6.6.0",
     "cross-env": "^1.0.7",
     "es3ify": "^0.2.0",
-    "gitbook-cli": "^0.3.4",
     "glob": "^6.0.4",
-    "isparta": "^4.0.0",
     "rimraf": "^2.3.4",
-    "webpack": "^1.9.6"
+    "webpack": "^1.12.14"
   },
   "dependencies": {
     "lodash": "^4.6.1",
@@ -61,7 +59,9 @@
     "files": [
       "test/*-test.js"
     ],
-    "require": ["babel-register"],
+    "require": [
+      "babel-register"
+    ],
     "babel": "inherit"
   }
 }
