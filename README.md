@@ -117,9 +117,9 @@ export default {
 }
 ```
 
-## Advanced State Machine
+## Advanced Stateum usage, but not toooo advanced
 
-Stateum is no isolated to synchronous calls and returns everything as a promise allowing us to make for complex state transitions.
+Stateum is not isolated to synchronous calls and returns everything as a promise allowing us to make for complex state transitions.
 
 Two available methods are `allowTransition(to, transitionState)` which allows for us to change the complexity of what states are available to be
 transitioned to.  `allowTransition` will be passed the returned object from the `transitionStates()` method nested in each state (more on this method later)
@@ -143,8 +143,6 @@ const transitionStates = await obj.transitionStates()
 
 Requesting `obj.transitionTo('START')` will evaluate in the `allowTransition` method to valid and transition to start.  Because we see 'STOP' evaluated to 'false',
 requesting `obj.transitionTo('STOP')` will throw an excecption that the transition is not valid.
-
-
 
 ```
 export default {
