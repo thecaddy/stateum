@@ -1,6 +1,6 @@
 {
   "name": "stateum",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "An attachable state machine for your javascript objects.",
   "main": "index",
   "scripts": {
@@ -27,7 +27,7 @@
     "lodash": "^4.6.1"
   },
   "engines" : {
-    "node" : ">=4" 
+    "node" : ">=4"
   },
   "ava": {
     "files": [
