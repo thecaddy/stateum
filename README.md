@@ -1,19 +1,44 @@
-# Stateum [![Circle CI](https://circleci.com/gh/thecaddy/stateum.svg?style=svg)](https://circleci.com/gh/thecaddy/stateum)
-An attachable state machine for your javascript objects.
+# Stateum 
+
+[![Circle CI](https://circleci.com/gh/thecaddy/stateum.svg?style=svg)](https://circleci.com/gh/thecaddy/stateum)
+
+An attachable state machine for your javascript objects, made necessary by the need to make sense of complex business logic.
 
 ## Installation
 ```
-$ npm install stateum
+$  npm install stateum
 ```
 
 Stateum is supported in node v4+.
+
+## Table of Contents
+
+- [Use Cases](#use-cases)
+- [Basic Usage](#basic-usage)
+- [Setting up a Basic State Machine](#setting-up-a-basic-state-machine)
+- [Advanced Stateum usage, but not too advanced](#advanced-stateum-usage,-but-not-too-advanced)
+- [Connecting Stateum to Sequelize models](#connecting-stateum-to-sequelize-models)
+
+## Use Cases
+- Turning on and off a light switch, e.g. ON, OFF, FAILED
+- User payment states, e.g. UNPAID, PAID, CANCELLED, PENDING
+- Data processing, e.g. PENDING, PROCESSING, COMPLETE, FAILED, CANCELLED
+- Email, e.g. PENDING, SENDING, SENT, FAILED, CANCELLED
 
 ## Basic Usage
 
 ```
 import stateum from 'stateum'
-import myMachine from './myMachine'
 
+const myMachine = {
+  getState() {...},
+  states: {
+    DUMMYSTATE1: {
+      transitions: {...}
+    },
+    ...
+  }
+}
 const obj = {
     state: 'PAUSE'
 }
@@ -237,5 +262,39 @@ export default {
     }
   }
 }
+```
+
+## Connecting Stateum to Sequelize models
+
+Attaching Stateum to the instance methods will make the statemachine available on all instances of your model and sequelize available within your state machine.
+
+```
+import stateum from 'stateum'
+
+const myMachine = {
+  getState() {...},
+  states: {
+    DUMMYSTATE1: {
+      transitions: {...}
+    },
+    ...
+  }
+}
+
+export default (sequelize, DataTypes) => {
+  const definition = {
+    id: type: DataTypes.INTEGER,
+    ...
+  }
+  const options = {
+    instanceMethods: {...}
+  }
+
+  const myModelMachine = stateum(myMachine)
+  myModelMachine(options.instanceMethods)
+
+  return sequelize.define('myModel', definition, options);
+};
+
 ```
 
