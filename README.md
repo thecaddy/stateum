@@ -16,7 +16,7 @@ Stateum is supported in node v4+.
 - [Use Cases](#use-cases)
 - [Basic Usage](#basic-usage)
 - [Setting up a Basic State Machine](#setting-up-a-basic-state-machine)
-- [Advanced Stateum usage, but not too advanced](#advanced-stateum-usage,-but-not-too-advanced)
+- [Advanced Stateum usage, but not too advanced](#advanced-stateum-usage-but-not-too-advanced)
 - [Connecting Stateum to Sequelize models](#connecting-stateum-to-sequelize-models)
 
 ## Use Cases
