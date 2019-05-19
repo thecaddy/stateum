@@ -14,12 +14,11 @@
   ],
   "scripts": {
     "clean": "rimraf lib dist es",
-    "test": "babel-jest",
+    "test": "npm run clean && npm run build && jest",
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
-    "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development webpack src/stateum.js dist/stateum.js",
-    "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=production webpack src/stateum.js dist/stateum.min.js",
-    "build": "npm run build:commonjs && npm run build:es && npm run build:umd && npm run build:umd:min && node ./build/es3ify",
+    "build:umd": "cross-env BABEL_ENV=umd NODE_ENV=production webpack src/stateum.js -o dist/stateum.js --config webpack.config.js",
+    "build": "npm run clean && npm run build:commonjs && npm run build:es && npm run build:umd && node ./build/es3ify",
     "prepublish": "npm run clean && npm test && npm run build"
   },
   "repository": {

@@ -36,11 +36,9 @@ if (env === 'production') {
   config.mode = 'production';
   config.optimization = {
     minimizer: [
-      new UglifyJsPlugin({
-        test: /\.js(\?.*)?$/i,
-      }),
+      new UglifyJsPlugin(),
     ],
   };
 }
 
-module.exports = config
+module.exports = config;
