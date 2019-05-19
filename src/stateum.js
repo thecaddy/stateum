@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { extend } from 'lodash'
 
 function isPromise(obj) {
   return 'function' == typeof obj.then;
@@ -59,7 +59,7 @@ export default (sm) => {
         }
         let ret = { state: state }
         if (stateMachine.states[state].transitionStates) {
-          return toPromise(stateMachine.states[state].transitionStates.apply(_.extend(this, { STATEUM: stateMachine.states[state] })))
+          return toPromise(stateMachine.states[state].transitionStates.apply(extend(this, { STATEUM: stateMachine.states[state] })))
           .then(transitionStates => {
             ret.transitionStates = transitionStates;
             return ret;
@@ -93,7 +93,7 @@ export default (sm) => {
           });
         }
 
-        return toPromise(stateMachine.states[ret.state].transitions[to].apply(_.extend(this, { STATEUM: stateMachine.states[ret.state] })))
+        return toPromise(stateMachine.states[ret.state].transitions[to].apply(extend(this, { STATEUM: stateMachine.states[ret.state] })))
         .then(resp => {
           delete resp.STATEUM;
           return resp;

@@ -1,39 +1,46 @@
 
 'use strict';
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const webpack = require('webpack');
 
-var webpack = require('webpack')
-
-var env = process.env.NODE_ENV
-var config = {
+const env = process.env.NODE_ENV;
+const config = {
   module: {
-    loaders: [
-      { test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/ }
-    ]
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/env']
+          }
+        }
+      }
+    ],
   },
   output: {
     library: 'Stateum',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    filename: 'stateum.js',
   },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env)
     })
-  ]
+  ],
+  mode: 'development'
 };
 
 if (env === 'production') {
-  config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        screw_ie8: true,
-        warnings: false
-      }
-    })
-  )
+  config.mode = 'production';
+  config.optimization = {
+    minimizer: [
+      new UglifyJsPlugin({
+        test: /\.js(\?.*)?$/i,
+      }),
+    ],
+  };
 }
 
 module.exports = config
