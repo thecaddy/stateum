@@ -1,3 +1,9 @@
+# 1.1.0
+- [ADDED] use Jest for test runner
+- [UPDATED] use node 10
+- [UPDATED] use babel 7 for transpiling
+- [UPDATED] use webpack 4 for packaging
+
 # 1.0.1
 - [FIXED]package build
 
