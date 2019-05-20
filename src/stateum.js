@@ -41,7 +41,7 @@ export default (sm) => {
 
   let stateMachine = sm;
   return obj => {
-    if (!obj || obj.constructor !== Object) {
+    if (!obj || typeof obj !== 'object' || Array.isArray(obj)) {
       throw new Error('Object passed in does not exist or is not an object')
     }
 
@@ -88,7 +88,7 @@ export default (sm) => {
         }
 
         if (!allow) {
-          return obj.getState().then(state => {
+          return obj.getState.apply(this).then(state => {
             throw new Error(`Transition "${to}" not permitted in current state "${state}"`);
           });
         }
